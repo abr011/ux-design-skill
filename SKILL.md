@@ -575,6 +575,8 @@ Add `data-exclude` attribute to exclude pills so CSS can differentiate:
 .filter-pill[data-exclude].active { background: var(--color-text); color: white; }
 ```
 
+**Separation pattern:** When exclusion is a rare "set and forget" preference (e.g., hiding entire categories), move it to a **settings modal** instead of inline pills. The main UI stays positive (inclusion only), and a subtle "Hidden (N)" chip opens the settings when needed. This avoids cognitive load of mixing "tap to show" and "tap to hide" in the same row.
+
 ---
 
 ## AI-Assisted UX Principle
@@ -879,3 +881,58 @@ When the user interacts with filters, expands/collapses items, or navigates away
 - Changing tabs or sort order
 
 **Implementation**: Save `scrollTop` before any re-render. Restore with `requestAnimationFrame()` after DOM update. Store position per-view so each view remembers independently.
+
+### 8. Tag Cloud Filtering — Browse by Category
+
+When content has categorical metadata (genres, types, topics), show a **tag cloud** — a row of pill buttons that let users filter by tapping. The tag cloud sits above the content list and provides at-a-glance category distribution.
+
+**Model**: Inclusion (tap to show), not exclusion (tap to hide). Users think "show me Fantasy" not "hide everything except Fantasy".
+
+**Components:**
+- **"All" pill** — always first, active when no category selected, clears selection on tap
+- **Category pills** — show label + count, active state = accent color, sorted by count descending
+- **Exclusion settings** — separate from the cloud (settings modal), for "set once, forget" hiding
+
+**Interaction:**
+- Tap category → select it (single-select: clears previous)
+- Tap active category → deselect (back to "All")
+- Tap "All" → clear selection
+- Counts reflect the current universe (post-exclusion), not the filtered subset
+
+**Why single-select (not multi-select OR):**
+Multi-select adds complexity (how to show 3 active pills on mobile?) for minimal benefit. Users rarely need "Fantasy OR Sci-fi". If they do, they can scan one genre then the other. Keep it simple.
+
+**Persistence:**
+- Category selection: NOT persisted (fresh start on reload avoids confusing state)
+- Exclusions: persisted (they're preferences, not browsing state)
+
+**Relationship to Active Filters (§6):**
+Tag cloud filters by broad categories (genre). Active filter chips filter by specific entities (author, narrator, series). They compose — tag cloud narrows the category, then active filters narrow within it. Don't mix them into one system.
+
+**Layout:**
+```
+[Vše] [Sci-fi 47] [Historický 29] [Thriller 23] [Fantasy 13] ...
+```
+
+Horizontal scroll on mobile, wrap on desktop. Pills use category-specific colors when active (genre → accent color class).
+
+### 9. Meta Cloud — Top N with Expand
+
+When content has many-valued metadata (authors, narrators, tags), show the **top N as pills** with a "and M more" expand button. Don't show 60 pills — show 5 useful ones.
+
+**Pattern:**
+```
+Autoři: [F. Niedl 21] [J. Kotouč 14] [F. Kotleta 13] ... [a 32 dalších]
+```
+
+- Show top 5 by count (or by relevance/preference order)
+- Abbreviate names: "František Niedl" → "F. Niedl"
+- "a N dalších" opens a full modal with search + multi-select
+- Pills toggle active filters (§6) — same dismissible chip system
+- Counts come from the current filtered universe
+
+**Modal pattern:**
+- Search input at top (filters the list as you type)
+- Each item shows full name + count
+- Multi-select: tap to toggle, "Hotovo" to apply batch
+- Changes applied as active filter chips on confirm
