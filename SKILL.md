@@ -1,19 +1,22 @@
 ---
 name: ux-design
-description: UX design system inspired by GitLab Pajamas with forgiving software patterns. Use when building frontend interfaces, creating HTML/CSS components, or implementing user-friendly interactions with undo capabilities.
+description: Design-system-agnostic UX principles — forgiving software, interaction patterns, content browsing, copy guidelines, lazy registration. For visual implementation (tokens, CSS, component markup), see the ui-design skill.
 ---
 
-# UX Design System
+# UX Design Principles
 
-This skill provides a consistent design system for building frontend interfaces using GitLab Pajamas design principles and forgiving software patterns.
+This skill provides behavioral design principles for building frontend interfaces. It is design-system-agnostic — the interaction patterns, copy guidelines, and philosophy here work with any visual system.
+
+For **visual implementation** (design tokens, CSS, component markup, responsive layout), see the `ui-design` skill at `ui-design/`.
 
 ## When to Use This Skill
 
-Use this design system when:
-- Creating new HTML pages or components
-- Building forms, cards, lists, or other UI elements
-- Implementing user actions with undo capability
-- Styling buttons, inputs, or navigation
+Use this skill when:
+- Making UX decisions (interaction patterns, flows, copy)
+- Deciding how users should interact with features
+- Writing user-facing text (error messages, labels, buttons)
+- Planning form behavior, navigation, or data display
+- Designing onboarding, authentication, or content browsing flows
 
 ## Design Philosophy
 
@@ -42,111 +45,6 @@ Three principles guide every design decision.
 - Every step is a friction point
 - Every duplication is an annoyance
 
-## Design Foundation: GitLab Pajamas
-
-We follow GitLab Pajamas design principles (design.gitlab.com) but implement in **vanilla CSS** — keeping our projects framework-agnostic.
-
-**What we take from Pajamas:**
-- Design tokens (colors, spacing, typography)
-- Component patterns (forms, buttons, cards)
-- UX guidelines (accessibility, responsive design)
-
-**What we don't use:**
-- @gitlab/ui Vue components (we use vanilla HTML/CSS/JS)
-
-**Reference links:**
-- Design principles: https://design.gitlab.com/
-- Color system: https://design.gitlab.com/product-foundations/colors
-- Spacing: https://design.gitlab.com/product-foundations/spacing
-- Components: https://design.gitlab.com/components/overview
-
----
-
-## Design Tokens
-
-### Colors
-
-```css
-:root {
-  /* Background */
-  --color-background: #fafafa;
-  --color-background-subtle: #f0f0f0;
-
-  /* Text — all meet WCAG AA (4.5:1) on #fafafa */
-  --color-text: #1f2937;            /* 14.1:1 */
-  --color-text-secondary: #4b5563;  /* 7.2:1  */
-  --color-text-muted: #6b7280;      /* 4.6:1  */
-
-  /* Primary (GitLab indigo) */
-  --color-primary: #6366f1;
-  --color-primary-hover: #4f46e5;
-
-  /* Neutral */
-  --color-border: #e5e7eb;
-  --color-border-strong: #d1d5db;
-
-  /* Semantic */
-  --color-success: #22c55e;
-  --color-success-bg: #dcfce7;
-  --color-warning: #f59e0b;
-  --color-warning-bg: #fef3c7;
-  --color-danger: #ef4444;
-  --color-danger-bg: #fee2e2;
-  --color-info: #0ea5e9;
-  --color-info-bg: #e0f2fe;
-}
-```
-
-### Spacing Scale
-
-```css
-:root {
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-5: 24px;
-  --space-6: 32px;
-  --space-7: 48px;
-  --space-8: 64px;
-}
-```
-
-### Typography
-
-```css
-:root {
-  /* Font family */
-  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --font-family-mono: 'SF Mono', Monaco, Consolas, 'Liberation Mono', monospace;
-
-  /* Font sizes */
-  --font-size-xs: 12px;
-  --font-size-sm: 14px;
-  --font-size-md: 16px;
-  --font-size-lg: 18px;
-  --font-size-xl: 20px;
-  --font-size-2xl: 24px;
-  --font-size-3xl: 30px;
-
-  /* Line heights */
-  --line-height-tight: 1.25;
-  --line-height-normal: 1.5;
-  --line-height-relaxed: 1.75;
-}
-```
-
-### Border Radius
-
-```css
-:root {
-  --radius-sm: 4px;
-  --radius-md: 6px;
-  --radius-lg: 8px;
-  --radius-full: 9999px;
-}
-```
-
 ---
 
 ## Core Design Principles
@@ -170,8 +68,7 @@ User clicks "Archive" → Item archived → Toast appears:
 ### 2. Data Display Patterns
 
 **Cards** - For browsing/overview (visual scanning):
-- Use `display: flex; flex-direction: column` on card
-- Use `flex-grow: 1` on card body to push footer to bottom
+- Push footer to bottom using flex layout
 - No borders between cards - use whitespace (gap) only
 
 ```
@@ -188,12 +85,14 @@ User clicks "Archive" → Item archived → Toast appears:
 
 **No tables** - Use cards or lists instead.
 
+*For card CSS (flex-direction, flex-grow), see ui-design skill.*
+
 ### 3. Form Inputs
 
 - Clear bordered inputs with visible focus states
 - Labels above inputs, never inline
 - Inline validation with helpful messages
-- Input width reflects expected content (see Input Width Guidelines)
+- Input width reflects expected content (see ui-design Input Width Guidelines)
 
 ### 4. Dropdown Avoidance
 
@@ -222,17 +121,21 @@ User clicks "Archive" → Item archived → Toast appears:
 
 ### 5. Buttons
 
-- **Primary**: Indigo/purple (`--color-primary`)
+- **Primary**: Main action (indigo/purple)
 - **Secondary**: Gray outlined
-- **Danger**: Red (only for truly destructive actions, rare)
+- **Danger**: Only for truly destructive actions (rare)
 - **No orange buttons**
+
+*For button color values, see ui-design skill.*
 
 ### 6. Minimalist Design
 
 - Clean, simple interfaces with generous whitespace
-- No pure colors: use off-white (#fafafa) and soft black (#1f2937)
+- No pure colors: use off-white and soft black
 - **No borders/lines for separation**: use whitespace only (no grey dividers between sections, items, or cards)
 - No icons/emoji unless they have explicit functional meaning
+
+*For specific color values (off-white, soft black), see ui-design design tokens.*
 
 ### 7. Heading or Separator, Never Both
 
@@ -243,25 +146,9 @@ Headings and separators both create visual boundaries between content groups. Th
 
 **Never add `border-bottom` to a heading.** The heading text itself is the separator — adding a line underneath is redundant double-signaling.
 
-```css
-/* CORRECT: heading with whitespace only */
-.section-header {
-  font-size: var(--font-size-xs);
-  font-weight: 600;
-  color: var(--color-text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-top: var(--space-4);
-  margin-bottom: var(--space-2);
-}
-
-/* WRONG: heading + border = redundant */
-.section-header {
-  border-bottom: 1px solid var(--color-border); /* NEVER */
-}
-```
-
 **Quick test:** If you can remove the text and the border still makes sense as a divider, it should be a borderless separator. If you can remove the border and the text still makes sense as a group label, it should be a heading with whitespace only.
+
+*For section header CSS, see ui-design skill.*
 
 ### 8. Component Consistency — Audit All Occurrences
 
@@ -285,46 +172,22 @@ Every project with UI should have an **`audit-cards.html`** (or `audit-component
   - **Description**: what it shows and when
   - **Where**: function name, container, which view it appears in
   - **Live HTML**: exact production markup using the app's real CSS
-- List sections (A, B, C...) showing how components appear in context (e.g., "Library list with mix of cards")
+- List sections (A, B, C...) showing how components appear in context
 - Optional: font/spacing comparison table across variants
 
-**Structure:**
-```html
-<!-- Component variant -->
-<div class="audit-section">
-  <div class="audit-label">2. Book Card — s play</div>
-  <div class="audit-desc">What it is and when it's used.</div>
-  <div class="audit-where">Function: <code>renderBookCard(book, true)</code> · Where: Library</div>
-  <!-- Exact production HTML using real app CSS -->
-  <div class="book-list">...</div>
-</div>
-
-<!-- List context -->
-<div class="audit-section">
-  <div class="audit-label">A. Library — main list</div>
-  <div class="audit-desc">How cards appear together in the library view.</div>
-  <div class="book-list" style="border: 1px dashed var(--border);">
-    <!-- 2 rows showing the card mix -->
-  </div>
-</div>
-```
-
 **Rules:**
-- Links to the app's real `css/styles.css` — components render authentically
-- Uses relative CSS path (`css/styles.css`, not `/css/styles.css`) so it works via `file://`
-- Disable interactive elements in audit context (`pointer-events: none` on buttons, `cursor: default` on cards)
-- List sections show 2 representative rows each — enough to see the pattern, not more
+- Links to the app's real CSS — components render authentically
+- Uses relative CSS path so it works via `file://`
+- Disable interactive elements in audit context
+- List sections show 2 representative rows each
 - **Keep it updated**: when you add/change a component variant, update the audit page in the same commit
-- When a candidate variant (e.g., 4b) gets promoted to production, merge it into the main number and remove the candidate section
+- When a candidate variant gets promoted to production, merge it into the main number
 
-**When to create:**
-- At the start of any project that has 3+ distinct visual component variants
-- When visual inconsistency bugs start appearing (retroactive audit)
+**When to create:** At the start of any project with 3+ distinct visual component variants.
 
-**When to update:**
-- Every time a component's markup or styling changes
-- When adding a new component variant
-- When changing which variant is used in production
+**When to update:** Every time a component's markup or styling changes.
+
+*For audit page HTML template, see ui-design skill.*
 
 ### 10. No System Popups
 
@@ -334,112 +197,24 @@ Every project with UI should have an **`audit-cards.html`** (or `audit-component
 - For confirmations: use the forgiving software pattern (action + undo toast)
 - For user input: use inline form fields, never `window.prompt()`
 
----
+### 11. Labels Are Last Resort (Data Display)
 
-## Input Width Guidelines
+**When displaying data, show values only.** Labels add visual noise — most values are self-explanatory from context, format, or position.
 
-**Principle:** Input width should hint at expected content length. A postal code field shouldn't be full-width.
+This applies to **read-only views** (detail pages, cards, lists, summaries). Forms (§3) still need labels above every input.
 
-### Width Classes (3 sizes)
+**When to skip labels:**
+- Dates, times, durations — format is obvious (`14. 2. 2026`, `8 h 3 min`)
+- Names, titles — position/typography makes the role clear (bold title, secondary-color author)
+- Counts, percentages, ratings — numbers with units speak for themselves
+- Status indicators — color/icon/badge is enough
 
-```css
-/* IMPORTANT: Width on INPUT element, not label wrapper */
-.input-xs .form-input { width: 100px; }   /* PSČ, CVV, codes */
-.input-sm .form-input { width: 180px; }   /* dates, phone, IČO */
-.input-md .form-input { width: 320px; }   /* names, emails */
-```
+**When labels help (suggest sparingly):**
+- Ambiguous values — e.g., "ID: 12345678" (without label, just a number)
+- Multiple values of same type — e.g., author vs. narrator are both names, so a label disambiguates
+- Technical or domain-specific data — e.g., "ISBN", "Sample rate"
 
-### Rules
-
-- Use `.input-xs` for: PSČ, CVV, verification codes, house numbers (Č.p.)
-- Use `.input-sm` for: dates, phone numbers, IČO, DIČ, city names
-- Use `.input-md` for: names, emails, street addresses
-- **Full-width only for**: textareas, long descriptions
-
-### Short Input Labels
-
-For `.input-xs` fields, labels may be longer than the input. Keep labels on one line:
-
-```css
-.form-label-text-nowrap { white-space: nowrap; }
-```
-
-### Example: Address Form
-
-```
-┌─────────────────────────────────────────────────────┐
-│ Ulice                      │ Č.p.     │ Město       │
-│ [████████████████████████] │ [█████]  │ [█████████] │
-│        .input-md           │ .input-xs│  .input-sm  │
-└─────────────────────────────────────────────────────┘
-```
-
-### Implementation
-
-```html
-<div class="form-row">
-  <label class="form-label input-md">
-    <span class="form-label-text">Ulice</span>
-    <input type="text" class="form-input" name="street">
-  </label>
-  <label class="form-label input-xs">
-    <span class="form-label-text form-label-text-nowrap">Č.p.</span>
-    <input type="text" class="form-input" name="house_number">
-  </label>
-  <label class="form-label input-sm">
-    <span class="form-label-text">Město</span>
-    <input type="text" class="form-input" name="city">
-  </label>
-</div>
-```
-
-```css
-.form-row {
-  display: flex;
-  gap: var(--space-5);
-  flex-wrap: wrap;
-  align-items: flex-start;
-}
-
-/* Width on input, not label */
-.input-xs .form-input { width: 100px; }
-.input-sm .form-input { width: 180px; }
-.input-md .form-input { width: 320px; }
-
-/* Keep short labels on one line */
-.form-label-text-nowrap { white-space: nowrap; }
-
-/* Full-width on mobile */
-@media (max-width: 576px) {
-  .input-xs .form-input,
-  .input-sm .form-input,
-  .input-md .form-input {
-    width: 100%;
-  }
-}
-```
-
----
-
-## Component Library
-
-See `components.md` for copy-paste ready HTML/CSS for:
-- Buttons (primary, secondary, outline)
-- Form inputs (text, email, password, textarea)
-- Input width utilities
-- Cards and Card grids
-- List views with actions
-- Toast with undo
-- Archive page pattern
-- Empty states
-- Step indicators
-- Error messages
-- Pills/Tags
-- Loading states
-
-## Examples
-
-See `examples.md` for full page examples showing components in context.
+**Test:** Remove the label. Would a user still know what the value means from context? If yes, skip it.
 
 ---
 
@@ -491,9 +266,10 @@ See `examples.md` for full page examples showing components in context.
 - **Style**: Subtle circles with numbers + text, all in one line
 - **Active step**: Dark circle with white text, bold name
 - **Inactive step**: Gray circle with gray text
-- **Size**: Small circles 24x24px, font 13px
 - **Naming**: Brief (max 2 words), clear actions or content
-- **No connector lines**: Steps separated by whitespace only (gap: 32px)
+- **No connector lines**: Steps separated by whitespace only
+
+*For step indicator sizing (24x24px, 13px, 32px gap), see ui-design skill.*
 
 ---
 
@@ -506,76 +282,37 @@ Cases where we intentionally deviate from the core rules above.
 When a form offers two alternative input methods (e.g. paste URL **or** upload photo), use a short centered divider with text. This is NOT a section separator — it's a semantic "or" indicator, so short lines are appropriate.
 
 ```
-                    ─────── nebo ───────
+                    ─────── or ───────
 ```
 
 - Lines are **fixed 60px** each side, not full-width
 - Text is centered, muted color, small font
 - Use only between **alternative actions** in the same form, never between sequential sections
 
-```css
-.add-divider {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-3);
-  margin: var(--space-5) 0;
-  color: var(--color-text-muted);
-  font-size: var(--font-size-sm);
-}
-
-.add-divider::before,
-.add-divider::after {
-  content: '';
-  width: 60px;
-  height: 1px;
-  background: var(--color-border);
-}
-```
-
-```html
-<div class="add-divider"><span>nebo</span></div>
-```
+*For CSS implementation, see ui-design skill.*
 
 ### Drop Zone (exception to "no icons/emoji")
 
 File upload areas use a dashed border to visually communicate "drop target". This is a functional pattern, not decoration.
 
-```css
-.drop-zone {
-  border: 2px dashed var(--color-border-strong);
-  border-radius: var(--radius-lg);
-  padding: var(--space-7) var(--space-5);
-  text-align: center;
-  cursor: pointer;
-}
-
-.drop-zone:hover,
-.drop-zone.drag-over {
-  border-color: var(--color-primary);
-  background: var(--color-info-bg);
-}
-```
-
 - On mobile: `capture="environment"` on file input opens camera directly
 - Always show preview thumbnail after file selection with remove option
 - Hidden file input overlays the drop zone for click-to-browse
+
+*For CSS implementation, see ui-design skill.*
 
 ### Filter Pills with Dual Meaning (exception to uniform pill styling)
 
 When the same UI has both "include" and "exclude" pills, they need different active colors to signal different behavior:
 
-- **Include pills** (active): `--color-primary` (indigo) — "show recipes WITH this"
-- **Exclude pills** (active): `--color-text` (dark) — "hide recipes WITH this"
+- **Include pills** (active): primary color — "show items WITH this"
+- **Exclude pills** (active): dark color — "hide items WITH this"
 
-Add `data-exclude` attribute to exclude pills so CSS can differentiate:
-
-```css
-.filter-pill.active { background: var(--color-primary); color: white; }
-.filter-pill[data-exclude].active { background: var(--color-text); color: white; }
-```
+Add `data-exclude` attribute to exclude pills so CSS can differentiate.
 
 **Separation pattern:** When exclusion is a rare "set and forget" preference (e.g., hiding entire categories), move it to a **settings modal** instead of inline pills. The main UI stays positive (inclusion only), and a subtle "Hidden (N)" chip opens the settings when needed. This avoids cognitive load of mixing "tap to show" and "tap to hide" in the same row.
+
+*For CSS implementation, see ui-design skill.*
 
 ---
 
@@ -684,78 +421,7 @@ Level 2: Linked    → Personal content from external services
 - Maintain visible focus indicators
 - Support Escape to close dropdowns and dismiss toasts
 
-### ARIA Attributes
-
-```html
-<!-- Buttons with icons -->
-<button aria-label="Close">×</button>
-
-<!-- Form errors -->
-<input aria-invalid="true" aria-describedby="email-error">
-<small id="email-error">Please enter a valid email</small>
-
-<!-- Loading states -->
-<button aria-busy="true">Loading...</button>
-
-<!-- Toast notifications -->
-<div role="status" aria-live="polite">Item archived. <button>Undo</button></div>
-```
-
-### Screen Reader Text
-
-```css
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-```
-
----
-
-## Responsive Design
-
-### Breakpoints
-
-```css
-/* Mobile first approach */
-@media (min-width: 576px) { /* Small */ }
-@media (min-width: 768px) { /* Medium */ }
-@media (min-width: 1024px) { /* Large */ }
-@media (min-width: 1280px) { /* Extra large */ }
-```
-
-### Responsive Grid
-
-```css
-.card-grid {
-  display: grid;
-  gap: var(--space-4);
-  grid-template-columns: 1fr;
-}
-
-@media (min-width: 576px) {
-  .card-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .card-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-```
-
-### Touch Targets
-
-Minimum touch target size: 44x44px on mobile.
+*For ARIA attribute examples and `.sr-only` CSS, see ui-design skill.*
 
 ---
 
@@ -785,42 +451,32 @@ Every entity displayed in a list (person name, category, tag, series) should be 
 
 **Implementation**: Use `.meta-link` — visually subtle (secondary color, no underline) but interactive (cursor pointer, active state changes color to accent). On tap, apply as a filter with a visible dismissible chip (see principle 6).
 
-```css
-.meta-link {
-  color: var(--color-text-secondary);
-  cursor: pointer;
-  transition: color 150ms ease;
-}
-.meta-link:hover,
-.meta-link:active {
-  color: var(--color-primary);
-}
-```
-
 **Examples**: Tap author name → see all their works. Tap narrator → see everything they performed. Tap genre tag → filter to that genre.
+
+*For `.meta-link` CSS, see ui-design skill.*
 
 ### 3. Series & Sequence Awareness
 
 Items that belong to a series or ordered sequence **must show their position**. Users need to know: Is this item 1 of 5 or 3 of 12? Can I start here?
 
-**Pattern**: Show inline with metadata — "Díl 3 z 7" or "Part 3 / 7". Series name itself is a tappable meta-link (same pattern as principle 2).
+**Pattern**: Show inline with metadata — "Part 3 of 7" or "3 / 7". Series name itself is a tappable meta-link (same pattern as principle 2).
 
 ### 4. Content Preview — Describe What It's About
 
 Every content item should have a **short preview/description accessible without navigating away**:
 - 1-2 line truncated description in the list item itself (preferred)
-- Expandable inline description (tap "více" to reveal)
+- Expandable inline description (tap to reveal)
 - At minimum: visible in the detail view
 
-Use `--color-text-secondary` for descriptions. Truncate with `-webkit-line-clamp: 2`.
+Use secondary text color for descriptions. Truncate with line clamping.
 
 ### 5. Contextual Suggestions — Discovery Through Context
 
 When viewing an item's detail, **surface related items** based on shared attributes:
-- Same creator → "Další od autora" (More by this author)
-- Same performer → "Čte také" (Also performed by)
-- Same series → "V sérii" (In this series)
-- Same category → "Podobné" (Similar)
+- Same creator → "More by this author"
+- Same performer → "Also performed by"
+- Same series → "In this series"
+- Same category → "Similar"
 
 Compute client-side from existing data. Show as a horizontal scrollable row of small cards. Each suggestion card is tappable to navigate to that item.
 
@@ -830,45 +486,9 @@ When the user activates a filter (by tapping a meta-link or selecting a category
 
 **Pattern**: Chips appear between search/filter bar and the content list. Each chip shows the filter type + value + × button.
 
-```html
-<div class="active-filters">
-  <span class="filter-chip">
-    Autor: Douglas Adams
-    <button aria-label="Zrušit filtr">×</button>
-  </span>
-</div>
-```
-
-```css
-.active-filters {
-  display: flex;
-  gap: var(--space-2);
-  padding: var(--space-2) var(--space-5);
-  flex-wrap: wrap;
-}
-.filter-chip {
-  display: flex;
-  align-items: center;
-  gap: var(--space-1);
-  padding: var(--space-1) var(--space-3);
-  background: rgba(99, 102, 241, 0.08);
-  color: var(--color-primary);
-  border-radius: 9999px;
-  font-size: 13px;
-  font-weight: 500;
-}
-.filter-chip button {
-  background: none;
-  border: none;
-  color: inherit;
-  font-size: 16px;
-  cursor: pointer;
-  padding: 0 0 0 4px;
-  line-height: 1;
-}
-```
-
 Clearing all chips returns to the full unfiltered view.
+
+*For filter chip CSS and HTML, see ui-design skill.*
 
 ### 7. Scroll Position Preservation — Stay Where You Were
 
@@ -911,10 +531,10 @@ Tag cloud filters by broad categories (genre). Active filter chips filter by spe
 
 **Layout:**
 ```
-[Vše] [Sci-fi 47] [Historický 29] [Thriller 23] [Fantasy 13] ...
+[All] [Sci-fi 47] [Historical 29] [Thriller 23] [Fantasy 13] ...
 ```
 
-Horizontal scroll on mobile, wrap on desktop. Pills use category-specific colors when active (genre → accent color class).
+Horizontal scroll on mobile, wrap on desktop. Pills use category-specific colors when active.
 
 ### 9. Meta Cloud — Top N with Expand
 
@@ -922,17 +542,21 @@ When content has many-valued metadata (authors, narrators, tags), show the **top
 
 **Pattern:**
 ```
-Autoři: [F. Niedl 21] [J. Kotouč 14] [F. Kotleta 13] ... [a 32 dalších]
+Authors: [F. Smith 21] [J. Doe 14] [A. Johnson 13] ... [and 32 more]
 ```
 
 - Show top 5 by count (or by relevance/preference order)
-- Abbreviate names: "František Niedl" → "F. Niedl"
-- "a N dalších" opens a full modal with search + multi-select
+- Abbreviate names: "Frederick Smith" → "F. Smith"
+- "and N more" opens a full modal with search + multi-select
 - Pills toggle active filters (§6) — same dismissible chip system
 - Counts come from the current filtered universe
 
 **Modal pattern:**
 - Search input at top (filters the list as you type)
 - Each item shows full name + count
-- Multi-select: tap to toggle, "Hotovo" to apply batch
+- Multi-select: tap to toggle, "Done" to apply batch
 - Changes applied as active filter chips on confirm
+
+---
+
+*For visual implementation of all patterns above (design tokens, CSS, component markup, responsive layout, accessibility markup), see the `ui-design` skill at `ui-design/`.*
