@@ -7,7 +7,7 @@ description: Design-system-agnostic UX principles — forgiving software, intera
 
 This skill provides behavioral design principles for building frontend interfaces. It is design-system-agnostic — the interaction patterns, copy guidelines, and philosophy here work with any visual system.
 
-For **visual implementation** (design tokens, CSS, component markup, responsive layout), see the `ui-design` skill at `ui-design/`.
+For **visual implementation** (design tokens, CSS, component markup, responsive layout), see the `ui-design` skill at `~/.claude/skills/ui-design/`.
 
 ## When to Use This Skill
 
@@ -207,14 +207,42 @@ This applies to **read-only views** (detail pages, cards, lists, summaries). For
 - Dates, times, durations — format is obvious (`14. 2. 2026`, `8 h 3 min`)
 - Names, titles — position/typography makes the role clear (bold title, secondary-color author)
 - Counts, percentages, ratings — numbers with units speak for themselves
-- Status indicators — color/icon/badge is enough
+- Status indicators — color/icon/badge is enough (`● Rozposloucháno`)
 
 **When labels help (suggest sparingly):**
-- Ambiguous values — e.g., "ID: 12345678" (without label, just a number)
-- Multiple values of same type — e.g., author vs. narrator are both names, so a label disambiguates
-- Technical or domain-specific data — e.g., "ISBN", "Sample rate"
+- Ambiguous values — e.g., "IČO: 12345678" (without label, just a number)
+- Multiple values of same type — e.g., author vs. narrator are both names, so "Čte: Anna Brousková" disambiguates
+- Technical or domain-specific data — e.g., "ISBN", "Vzorkovací frekvence"
 
 **Test:** Remove the label. Would a user still know what the value means from context? If yes, skip it.
+
+### 12. Badge the Exception, Not the Default
+
+**When most items share one state, don't badge that state.** Only badge the minority — the exceptions that need attention. Badging the default adds visual noise without information.
+
+**The pattern:**
+- Identify the dominant state (the one 70%+ of items have)
+- Leave the dominant state unmarked — it's the assumed default
+- Badge only the exceptions that differ from the default
+
+**Example — book ownership (90% Klub, 6% purchased, 5% sample):**
+```
+Klub book:       Zaklínač              12h 30m          ← no badge (default)
+Purchased book:  Stopařův průvodce     6h 27m  Koupeno  ← green badge
+Sample book:     Jméno růže            5h 52m  Ukázka   ← gray badge + dimmed
+```
+
+**Why it works:**
+- The eye is drawn to what's different — badges on exceptions pop naturally
+- Badging everything (including the default) creates uniform noise where nothing stands out
+- Users learn the default quickly ("no badge = normal") and scan for exceptions
+
+**When the dominant state IS worth badging:**
+- Legal/compliance requirements (e.g., every item must show its license)
+- The majority changes frequently (today 90% are X, tomorrow 60% — unstable default)
+- Two states are close to 50/50 split (no clear default)
+
+**Test:** If you badge everything, does the badge still draw attention? If no — you're adding noise, not information.
 
 ---
 
@@ -282,7 +310,7 @@ Cases where we intentionally deviate from the core rules above.
 When a form offers two alternative input methods (e.g. paste URL **or** upload photo), use a short centered divider with text. This is NOT a section separator — it's a semantic "or" indicator, so short lines are appropriate.
 
 ```
-                    ─────── or ───────
+                    ─────── nebo ───────
 ```
 
 - Lines are **fixed 60px** each side, not full-width
@@ -305,8 +333,8 @@ File upload areas use a dashed border to visually communicate "drop target". Thi
 
 When the same UI has both "include" and "exclude" pills, they need different active colors to signal different behavior:
 
-- **Include pills** (active): primary color — "show items WITH this"
-- **Exclude pills** (active): dark color — "hide items WITH this"
+- **Include pills** (active): primary color — "show recipes WITH this"
+- **Exclude pills** (active): dark color — "hide recipes WITH this"
 
 Add `data-exclude` attribute to exclude pills so CSS can differentiate.
 
@@ -459,13 +487,13 @@ Every entity displayed in a list (person name, category, tag, series) should be 
 
 Items that belong to a series or ordered sequence **must show their position**. Users need to know: Is this item 1 of 5 or 3 of 12? Can I start here?
 
-**Pattern**: Show inline with metadata — "Part 3 of 7" or "3 / 7". Series name itself is a tappable meta-link (same pattern as principle 2).
+**Pattern**: Show inline with metadata — "Díl 3 z 7" or "Part 3 / 7". Series name itself is a tappable meta-link (same pattern as principle 2).
 
 ### 4. Content Preview — Describe What It's About
 
 Every content item should have a **short preview/description accessible without navigating away**:
 - 1-2 line truncated description in the list item itself (preferred)
-- Expandable inline description (tap to reveal)
+- Expandable inline description (tap "více" to reveal)
 - At minimum: visible in the detail view
 
 Use secondary text color for descriptions. Truncate with line clamping.
@@ -473,10 +501,10 @@ Use secondary text color for descriptions. Truncate with line clamping.
 ### 5. Contextual Suggestions — Discovery Through Context
 
 When viewing an item's detail, **surface related items** based on shared attributes:
-- Same creator → "More by this author"
-- Same performer → "Also performed by"
-- Same series → "In this series"
-- Same category → "Similar"
+- Same creator → "Další od autora" (More by this author)
+- Same performer → "Čte také" (Also performed by)
+- Same series → "V sérii" (In this series)
+- Same category → "Podobné" (Similar)
 
 Compute client-side from existing data. Show as a horizontal scrollable row of small cards. Each suggestion card is tappable to navigate to that item.
 
@@ -531,7 +559,7 @@ Tag cloud filters by broad categories (genre). Active filter chips filter by spe
 
 **Layout:**
 ```
-[All] [Sci-fi 47] [Historical 29] [Thriller 23] [Fantasy 13] ...
+[Vše] [Sci-fi 47] [Historický 29] [Thriller 23] [Fantasy 13] ...
 ```
 
 Horizontal scroll on mobile, wrap on desktop. Pills use category-specific colors when active.
@@ -542,21 +570,21 @@ When content has many-valued metadata (authors, narrators, tags), show the **top
 
 **Pattern:**
 ```
-Authors: [F. Smith 21] [J. Doe 14] [A. Johnson 13] ... [and 32 more]
+Autoři: [F. Niedl 21] [J. Kotouč 14] [F. Kotleta 13] ... [a 32 dalších]
 ```
 
 - Show top 5 by count (or by relevance/preference order)
-- Abbreviate names: "Frederick Smith" → "F. Smith"
-- "and N more" opens a full modal with search + multi-select
+- Abbreviate names: "František Niedl" → "F. Niedl"
+- "a N dalších" opens a full modal with search + multi-select
 - Pills toggle active filters (§6) — same dismissible chip system
 - Counts come from the current filtered universe
 
 **Modal pattern:**
 - Search input at top (filters the list as you type)
 - Each item shows full name + count
-- Multi-select: tap to toggle, "Done" to apply batch
+- Multi-select: tap to toggle, "Hotovo" to apply batch
 - Changes applied as active filter chips on confirm
 
 ---
 
-*For visual implementation of all patterns above (design tokens, CSS, component markup, responsive layout, accessibility markup), see the `ui-design` skill at `ui-design/`.*
+*For visual implementation of all patterns above (design tokens, CSS, component markup, responsive layout, accessibility markup), see the `ui-design` skill at `~/.claude/skills/ui-design/`.*
