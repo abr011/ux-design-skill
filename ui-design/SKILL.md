@@ -127,6 +127,17 @@ We follow GitLab Pajamas design principles (design.gitlab.com) but implement in 
 
 ---
 
+## Interactive vs Passive Elements
+
+**Default to passive/automatic behavior** unless the user explicitly requests interactive elements.
+
+- Status indicators (cache status, sync state, connection) should be **read-only** — not clickable buttons
+- Progress bars, loading states, and health indicators are **display-only**
+- Only make an element interactive if the user needs to take action on it
+- When in doubt, implement as a passive indicator first — it's easier to add interactivity later than to remove it
+
+---
+
 ## Component Visual Patterns
 
 ### Card Layout
